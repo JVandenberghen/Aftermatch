@@ -1,3 +1,5 @@
+import './instrument.js';
+import * as Sentry from '@sentry/node';
 import express from 'express';
 import cors from 'cors';
 import connectDB from './db.js';
@@ -7,11 +9,13 @@ import authRoutes from './routes/authRoutes.js';
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-}));
+app.use(
+  cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+  })
+);
 app.use(express.json());
 
 // Routes
@@ -20,10 +24,18 @@ app.get('/', (req, res) => {
 });
 app.use('/api/football', footballRoutes);
 app.use('/api/auth', authRoutes);
+Sentry.setupExpressErrorHandler(app);
+
+app.use(function onError(err, req, res, next) {
+  // The error id is attached to `res.sentry` to be returned
+  // and optionally displayed to the user for support.
+  res.statusCode = 500;
+  res.end(res.sentry + "\n");
+});
 
 let server;
 if (process.env.NODE_ENV !== 'test') {
-  connectDB(); 
+  connectDB();
 
   const PORT = 5000;
   server = app.listen(PORT, () => {
