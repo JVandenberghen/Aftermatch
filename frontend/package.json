@@ -13,9 +13,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.2.0",
+    "@mui/material": "^6.2.0",
+    "@sentry/react": "^8.44.0",
+    "@sentry/tracing": "^7.114.0",
+    "autoprefixer": "^10.4.20",
     "eslint-plugin-cypress": "^4.1.0",
+    "postcss": "^8.4.49",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.1",
+    "react-router-dom": "^7.0.2",
+    "tailwindcss": "^3.4.16"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.26.0",
