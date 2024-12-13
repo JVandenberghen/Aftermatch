@@ -25,9 +25,7 @@ export default [
       'react-refresh': reactRefresh,
       cypress,
     },
-    extends: [
-      'plugin:cypress/recommended',  
-    ],
+    extends: ['plugin:cypress/recommended'],
     rules: {
       ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,
@@ -38,7 +36,7 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
-      'no-undef': 'off',  // Disable TypeScript type checks
+      'no-undef': 'off', // Disable TypeScript type checks
     },
   },
 ];

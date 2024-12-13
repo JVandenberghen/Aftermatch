@@ -1,9 +1,9 @@
 const config = {
-  preset: "vite-jest",
+  preset: 'vite-jest',
   collectCoverage: false,
-  coverageReporters: ["text"],
+  coverageReporters: ['text'],
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    '^.+\\.jsx?$': 'babel-jest',
   },
   testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: ['@testing-library/jest-dom'],

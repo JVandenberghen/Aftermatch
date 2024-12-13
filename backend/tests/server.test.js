@@ -9,7 +9,7 @@ describe('server.js', () => {
   beforeAll(async () => {
     // Mock successful DB connection to prevent actual DB connection in tests
     connectDB.mockResolvedValueOnce();
-    
+
     // Start the server on a separate port
     await startServer();
   });
@@ -21,8 +21,12 @@ describe('server.js', () => {
   it('should use cors middleware', async () => {
     const response = await request(app).options('/');
     expect(response.headers['access-control-allow-origin']).toBe('*');
-    expect(response.headers['access-control-allow-methods']).toBe('GET,HEAD,PUT,PATCH,POST,DELETE');
-    expect(response.headers['access-control-allow-headers']).toBe('Content-Type,Authorization');
+    expect(response.headers['access-control-allow-methods']).toBe(
+      'GET,HEAD,PUT,PATCH,POST,DELETE'
+    );
+    expect(response.headers['access-control-allow-headers']).toBe(
+      'Content-Type,Authorization'
+    );
   });
 
   it('should return JSON response on GET /', async () => {
@@ -50,5 +54,4 @@ describe('server.js', () => {
 
     listenMock.mockRestore();
   });
-
 });
