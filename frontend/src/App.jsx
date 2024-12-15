@@ -1,36 +1,33 @@
-import { useState } from 'react';
 import { ErrorBoundary } from '@sentry/react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
+import { ThemeProvider } from '@mui/material/styles';
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0);
+import Layout from './components/Layout';
+import SideMenu from './components/SideMenu';
+import Home from './components/Home';
+import theme from './styles/theme';
+import Competitions from './components/Competitions';
+import Players from './components/Players';
+import Clubs from './components/Clubs';
 
+const App = () => {
   return (
     <ErrorBoundary fallback={<h2>An error has occurred</h2>}>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ThemeProvider theme={theme}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/competitions" element={<Competitions />} />
+              <Route path="/players" element={<Players />} />
+              <Route path="/clubs"  element={<Clubs />} />
+            </Route>
+        </Routes>
+        <SideMenu />
+
+      </ThemeProvider>
     </ErrorBoundary>
   );
-}
+};
 
 export default App;

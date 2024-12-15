@@ -1,42 +1,70 @@
-import js from '@eslint/js';
 import globals from 'globals';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
-import cypress from 'eslint-plugin-cypress';
+import pluginReact from 'eslint-plugin-react';
+import importPlugin from 'eslint-plugin-import';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  { ignores: ['dist'] },
   {
-    files: ['**/*.{js,jsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+    ignores: [
+        'dist/**',       // Build output
+        'build/**',      // Alternative build output
+        'node_modules/**', // Third-party libraries
+        'coverage/**',   // Test coverage reports
+        '.git/**',       // Git metadata
+        'cypress/**',    // Cypress tests
+        'public/**',     // Static assets
+        'static/**',     // Additional static files
+        'reports/**',    // Test reports
+        'logs/**',       // Logs
+        'tmp/**',        // Temporary files
+        '.cache/**',     // Cache files
+      ],
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx}'],
+   
+  },
+  { languageOptions: { globals: globals.browser } }, // Flat configuration for JS plugin
+  pluginReact.configs.flat.recommended,  // Flat configuration for React plugin
+  {
+    settings: {
+      'import/resolver': {
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs', '.json'],
+          moduleDirectory: ['node_modules', './'],
+        },
+      },
+      react: {
+        version: 'detect',
       },
     },
-    settings: { react: { version: '18.3' } },
     plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-      cypress,
+      import: importPlugin,
+      'react-hooks': pluginReactHooks,
     },
-    extends: ['plugin:cypress/recommended'],
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
-      'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-      'no-undef': 'off', // Disable TypeScript type checks
+      'no-console': 'off',
+      'import/no-unresolved': 'error',
+      'no-undef': 'error',
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      strict: ['error', 'global'],
+      'semi': ['error', 'always'],
+      'quotes': ['error', 'single'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'react-hooks/rules-of-hooks': 'error',  
+      'react-hooks/exhaustive-deps': 'warn',
+      'react/react-in-jsx-scope': 'off',
+      'import/order': ['error', {
+        'groups': [
+          ['builtin', 'external'],
+          'internal',
+          ['parent', 'sibling', 'index'],
+        ],
+        'newlines-between': 'always',
+      }],
+      'no-implicit-globals': 'error',
+      'react/jsx-no-undef': ['error', { 'allowGlobals': true }],
     },
   },
 ];
