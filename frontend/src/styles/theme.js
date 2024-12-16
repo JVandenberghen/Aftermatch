@@ -26,6 +26,7 @@ const theme = createTheme({
     text: {
       primary: '#333333',  // --color-text-primary
       secondary: '#ffffff',  // --color-text-secondary
+      tertiary: '#cececeba',
     },
     border: '#DDDDDD',  // --color-border
     purple: '#9B59B6',  // --color-purple
