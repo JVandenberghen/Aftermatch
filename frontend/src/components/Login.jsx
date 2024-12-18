@@ -1,47 +1,78 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Card from '@mui/material/Card';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { Box, Button, Checkbox, Card, FormControlLabel, Divider, FormLabel, useMediaQuery, FormControl, TextField, Typography, Link, Alert } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@emotion/react';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { login } from '../redux/sessionSlice';
+import { auth } from '../services/firebase'; 
 
 
-const SignIn = () => {
+const Login = () => {
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-  const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      navigate('/');
     }
+  }, [navigate]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!validateInputs()) return;
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email');
+    const password = data.get('password');
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const idToken = await userCredential.user.getIdToken();
+      const payload = { token: idToken, user: { uid: userCredential.user.uid, email: userCredential.user.email } }
+
+      dispatch(login(payload));
+
+      const response = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken }),
+      });
+
+      const result = await response.json();
+
+      console.log(result);
+
+      if (response.ok) {
+        console.log('User logged in successfully:', result);
+        localStorage.setItem('authToken', result.token);
+        navigate('/');
+      } else {
+        console.error('Error logging in:', result);
+        setErrorMessage(result.message);
+      }
+    } catch (error) {
+      if (error.code === 'auth/invalid-credential') {
+        setErrorMessage('Invalid email or password. Please try again.');
+      } else {
+        console.error('Error during login:', error);
+        setErrorMessage('An error occurred during login.');
+      }
+    }
   };
 
   const validateInputs = () => {
@@ -180,10 +211,15 @@ const SignIn = () => {
             </Link>
           </Typography>
           </Box>
-          </Box>
+          {errorMessage && (
+          <Alert severity="error">
+            {errorMessage}
+          </Alert>
+        )}
+        </Box>
       </Card>
     </Box>
   );
 };
 
-export default SignIn;
+export default Login;

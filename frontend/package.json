@@ -23,6 +23,7 @@
     "@mui/x-date-pickers": "^7.23.2",
     "@mui/x-tree-view": "^7.23.2",
     "@react-spring/web": "^9.7.5",
+    "@reduxjs/toolkit": "^2.5.0",
     "@sentry/react": "^8.44.0",
     "@sentry/tracing": "^7.114.0",
     "autoprefixer": "^10.4.20",
@@ -35,7 +36,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.1",
-    "react-router-dom": "^7.0.2"
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.0.2",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.26.0",

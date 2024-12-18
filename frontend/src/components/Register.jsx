@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +14,7 @@ import { useNavigate } from 'react-router-dom';
 // TODO: use for authentication/sessions
 // import { auth } from '../services/firebase.js';
 
-
-export default function SignUp() {
+const Register = ()  =>{
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -26,6 +25,14 @@ export default function SignUp() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -72,7 +79,7 @@ export default function SignUp() {
     const email = data.get('email');
     const password = data.get('password');
     const name = data.get('name');
-
+  
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register`, {
         method: 'POST',
@@ -81,18 +88,18 @@ export default function SignUp() {
         },
         body: JSON.stringify({ email, password, name }),
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
         console.log('User registered successfully:', result);
-        navigate('/login'); 
+        localStorage.setItem('idToken', result.token);
+        navigate('/login');
       } else {
         if (result.error) {
           if (result.error === 'auth/email-already-exists') {
-            console.log(result);
             setEmailError(true);
-            setEmailErrorMessage(result.message);
+            setEmailErrorMessage('Registration failed. Please check your input.');
           } else {
             alert('Registration failed. Please try again.');
           }
@@ -199,4 +206,6 @@ export default function SignUp() {
       </Card>
     </Box>
   );
-}
+};
+
+export default Register;

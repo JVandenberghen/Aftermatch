@@ -33,7 +33,7 @@ const MenuItems = () => {
   const location = useLocation();
 
   return (
-    <Stack sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <Stack sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
       <List sx={{ paddingTop: 0 }}>
         {routes.map((item, index) => (
           <ListItem key={index} sx={{ display: 'block', padding: 0 }}>
