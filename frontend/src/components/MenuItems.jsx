@@ -9,6 +9,7 @@ import {
 import {
   HomeRounded,
   FormatListNumberedRounded,
+  FavoriteRounded,
   PeopleRounded,
   SettingsRounded,
   HelpRounded,
@@ -18,6 +19,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 export const routes = [
   { text: 'Home', icon: <HomeRounded />, route: '/' },
+  { text: 'Favorites', icon: <FavoriteRounded />, route: '/favorites' },
   { text: 'Competitions', icon: <FormatListNumberedRounded />, route: '/competitions' },
   { text: 'Players', icon: <PeopleRounded />, route: '/players' },
   { text: 'Clubs', icon: <Groups2 />, route: '/clubs' },
@@ -33,7 +35,7 @@ const MenuItems = () => {
   const location = useLocation();
 
   return (
-    <Stack sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <Stack sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
       <List sx={{ paddingTop: 0 }}>
         {routes.map((item, index) => (
           <ListItem key={index} sx={{ display: 'block', padding: 0 }}>

@@ -9,7 +9,10 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { logout } from '../redux/sessionSlice';
 import MenuButton from './MenuButton';
 
 
@@ -20,6 +23,8 @@ const MenuItem = styled(MuiMenuItem)({
 const OptionsMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,6 +32,13 @@ const OptionsMenu = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    dispatch(logout());
+    navigate('/login');
+    console.log('User logged out successfully');
   };
 
   return (
@@ -47,25 +59,22 @@ const OptionsMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         sx={{
-          [`& .${listClasses.root}`]: {
+          '.MuiList-root': {
             padding: '4px',
           },
-          [`& .${paperClasses.root}`]: {
+          '.MuiPaper-root': {
             padding: 0,
-          },
-          [`& .${dividerClasses.root}`]: {
-            margin: '4px -4px',
+            width: '10em',
           },
         }}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <Divider />
         <MenuItem
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: 'auto',

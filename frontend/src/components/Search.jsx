@@ -7,11 +7,11 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Search = () => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
   <>
-    <FormControl sx={{ width: isSmallScreen ? '60%' : '20rem' }} variant="outlined">
+    <FormControl sx={{ width: isMobileScreen ? '80%' : '30rem' }} variant="outlined">
       <OutlinedInput
         size="small"
         id="search"

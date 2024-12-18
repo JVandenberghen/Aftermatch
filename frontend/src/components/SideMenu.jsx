@@ -10,11 +10,11 @@ import CardAlert from './CardAlert';
 
 const SideMenu = () => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
   
   return (
     <>
-      {!isSmallScreen && 
+      {!isMobileScreen && 
         <Drawer
           variant="permanent"
           sx={{
