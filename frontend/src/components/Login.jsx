@@ -168,9 +168,9 @@ const Login = () => {
               />
             </FormControl>
             <FormControlLabel
-              control={<Checkbox value="remember"  sx={{ color: theme.palette.text.tertiary }} />}
+              control={<Checkbox defaultChecked value="remember"  sx={{ color: theme.palette.text.tertiary }} />}
               label="Remember me"
-              sx={{ color: theme.palette.text.tertiary }}
+              sx={{ color: theme.palette.text.primary }}
             />
             <Button
               type="submit"

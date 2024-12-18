@@ -171,7 +171,7 @@ const Register = ()  =>{
                 required
                 fullWidth
                 name="password"
-                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢"
+                placeholder="••••••"
                 type="password"
                 id="password"
                 autoComplete="new-password"
