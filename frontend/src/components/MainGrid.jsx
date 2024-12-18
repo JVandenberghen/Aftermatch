@@ -29,7 +29,7 @@ const data = [
     ],
   },
   {
-    title: 'Possesion',
+    title: 'Possession',
     value: '55%',
     interval: 'Last 30 days',
     trend: 'neutral',

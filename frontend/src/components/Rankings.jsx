@@ -14,7 +14,6 @@ const Rankings = () => {
       });
   
       const result = await response.json();
-      console.log(result);
       setResult(result.standings[0].table);
     };
     fetchData();

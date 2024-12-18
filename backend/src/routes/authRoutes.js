@@ -1,11 +1,10 @@
 import User from '../models/User.js';
 import admin from '../services/firebase.js';
-import authenticate from '../middleware/authenticate.js';
 import express from 'express';
 
 const router = express.Router();
 
-router.post('/register', authenticate, async (req, res) => {
+router.post('/register', async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -48,8 +47,8 @@ router.post('/register', authenticate, async (req, res) => {
 });
 
 
-router.post('/login', authenticate, async (req, res) => {
-  const { idToken } = req.body;
+router.post('/login', async (req, res) => {
+  const idToken = req.headers.authorization.replace('Bearer ', '');
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
@@ -76,7 +75,7 @@ router.post('/login', authenticate, async (req, res) => {
   }
 });
 
-router.get('/profile', authenticate, async (req, res) => {
+router.get('/profile', async (req, res) => {
   try {
     res.status(200).json({
       message: 'User profile',
