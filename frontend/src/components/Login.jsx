@@ -17,7 +17,7 @@ const Login = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const Login = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const idToken = await userCredential.user.getIdToken();
-      const payload = { token: idToken, user: { uid: userCredential.user.uid, email: userCredential.user.email } }
+      const payload = { token: idToken, user: { uid: userCredential.user.uid, email: userCredential.user.email, name: userCredential.user.displayName } };
 
       dispatch(login(payload));
 
@@ -118,7 +118,7 @@ const Login = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            width: isSmallScreen ? '80%' : '20em',
+            width: isMobileScreen ? '80%' : '20em',
             gap: 3,
           }}
         >

@@ -22,7 +22,7 @@ const Register = ()  =>{
   const [nameError, setNameError] = useState(false);
   const [nameErrorMessage, setNameErrorMessage] = useState('');
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const navigate = useNavigate();
 
@@ -127,7 +127,7 @@ const Register = ()  =>{
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              width: isSmallScreen ? '80%' : '20em',
+              width: isMobileScreen ? '80%' : '20em',
               gap: 3,
             }}
           >

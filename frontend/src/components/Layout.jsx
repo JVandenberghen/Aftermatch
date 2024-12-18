@@ -7,7 +7,7 @@ import Header from '../components/Header';
 
 const Layout = () => {
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
             <Header />
@@ -16,8 +16,8 @@ const Layout = () => {
                 sx={{
                     display: 'flex',
                     flex: 1,
-                    marginLeft: isSmallScreen ? 0 : '250px', 
-                    px: isSmallScreen ? '0.5rem' : '2rem',
+                    marginLeft: isMobileScreen ? 0 : '250px', 
+                    px: isMobileScreen ? '0.5rem' : '2rem',
                     pt: '5rem',
                     pb: '2rem',
                 }}>
