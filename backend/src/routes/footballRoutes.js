@@ -1,5 +1,5 @@
-import express from 'express';
 import axios from 'axios';
+import express from 'express';
 
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get('/competitions/:id', async (req, res) => {
   try {
     const response = await axios.get(
       `${API_URL}competitions/${id}`,
-      apiHeaders
+      apiHeaders,
     );
     res.json(response.data);
   } catch (error) {
@@ -37,7 +37,7 @@ router.get('/competitions/:id/matches', async (req, res) => {
   try {
     const response = await axios.get(
       `${API_URL}competitions/${id}/matches`,
-      apiHeaders
+      apiHeaders,
     );
     res.json(response.data);
   } catch (error) {
@@ -83,7 +83,7 @@ router.get('/competitions/:id/standings', async (req, res) => {
   try {
     const response = await axios.get(
       `${API_URL}competitions/${id}/standings`,
-      apiHeaders
+      apiHeaders,
     );
     res.json(response.data);
   } catch (error) {
@@ -96,7 +96,7 @@ router.get('/competitions/:id/scorers', async (req, res) => {
   try {
     const response = await axios.get(
       `${API_URL}competitions/${id}/scorers`,
-      apiHeaders
+      apiHeaders,
     );
     res.json(response.data);
   } catch (error) {

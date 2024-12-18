@@ -1,19 +1,21 @@
-import express from 'express';
+import User from '../models/User.js';
 import admin from '../services/firebase.js';
 import authenticate from '../middleware/authenticate.js';
-import User from '../models/User.js';
+import express from 'express';
 
 const router = express.Router();
 
-router.post('/register', async (req, res) => {
+router.post('/register', authenticate, async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Create user in Firebase Authentication
     const userRecord = await admin.auth().createUser({
       email,
       password,
     });
 
+    // Create the user in MongoDB atlas cloud db
     const newUser = new User({
       firebaseUID: userRecord.uid,
       email,
@@ -28,23 +30,35 @@ router.post('/register', async (req, res) => {
     });
   } catch (error) {
     console.error('Error creating user:', error);
-    res
-      .status(500)
-      .json({ message: 'Error creating user', error: error.message });
+
+    if (error.code) {
+      console.log('Error code:', error.code);
+      return res.status(400).json({
+        error: error.code,
+        message: error.message,
+      });
+    }
+
+
+    res.status(500).json({
+      message: 'Error creating user',
+      error: error.message,
+    });
   }
 });
 
-router.post('/login', async (req, res) => {
+
+router.post('/login', authenticate, async (req, res) => {
   const { idToken } = req.body;
 
   try {
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
-
-    let user = await User.findOne({ firebaseId: decodedToken.uid });
-
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    
+    let user = await User.findOne({ firebaseUID: decodedToken.uid });
+    
     if (!user) {
       user = new User({
-        firebaseId: decodedToken.uid,
+        firebaseUID: decodedToken.uid,
         email: decodedToken.email,
         name: decodedToken.name,
       });

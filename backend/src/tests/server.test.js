@@ -1,8 +1,7 @@
+import { app, startServer, stopServer } from '../server';
+import connectDB from '../db';
 import request from 'supertest';
-import { startServer, stopServer, app } from '../server';
-import connectDB from '../db'; // Import the database connection function
 
-// Mock the connectDB function to avoid actual DB connection during tests
 jest.mock('../db', () => jest.fn());
 
 describe('server.js', () => {
@@ -10,22 +9,21 @@ describe('server.js', () => {
     // Mock successful DB connection to prevent actual DB connection in tests
     connectDB.mockResolvedValueOnce();
 
-    // Start the server on a separate port
     await startServer();
   });
 
   afterAll(async () => {
-    await stopServer(); // Close the server after tests
+    await stopServer();
   });
 
   it('should use cors middleware', async () => {
     const response = await request(app).options('/');
     expect(response.headers['access-control-allow-origin']).toBe('*');
     expect(response.headers['access-control-allow-methods']).toBe(
-      'GET,HEAD,PUT,PATCH,POST,DELETE'
+      'GET,HEAD,PUT,PATCH,POST,DELETE',
     );
     expect(response.headers['access-control-allow-headers']).toBe(
-      'Content-Type,Authorization'
+      'Content-Type,Authorization',
     );
   });
 

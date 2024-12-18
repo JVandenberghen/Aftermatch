@@ -1,31 +1,33 @@
 import globals from 'globals';
-import pluginJs from '@eslint/js';
+import importPlugin from 'eslint-plugin-import';
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  {
-    languageOptions: {
-      globals: globals.node,
+/** @type {import('eslint').Linter.Config} */
+export default {
+  languageOptions: {
+    globals: {
+      ...globals.node, // Include only Node.js globals
+      ...globals.jest, // Include Jest globals
     },
   },
-  pluginJs.configs.recommended,
-  {
-    plugins: ['prettier'],
-    extends: ['plugin:prettier/recommended'],
-    rules: {
-      'no-console': 'off',
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      strict: ['error', 'global'],
-      'prettier/prettier': [
-        'error',
-        {
-          semi: true,
-          singleQuote: true,
-          trailingComma: 'es5',
-          printWidth: 80,
-          tabWidth: 2,
-        },
-      ],
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.mjs', '.cjs', '.json'], // Ensure supported file types are resolved
+        moduleDirectory: ['node_modules', './'],
+      },
     },
   },
-];
+  plugins: {
+    import: importPlugin,
+  },
+  rules: {
+    'no-console': 'off', // Disable no-console rule
+    'import/no-unresolved': 'error', // Report unresolved imports
+    'no-undef': 'error', // Report undefined variables
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }], // Warn about unused vars except those starting with _
+    strict: ['error', 'global'], // Enforce strict mode globally
+    'semi': ['error', 'always'], // Enforce semicolons
+    'quotes': ['error', 'single'], // Enforce single quotes
+    'comma-dangle': ['error', 'always-multiline'], // Enforce trailing commas
+  },
+};

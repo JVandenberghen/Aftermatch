@@ -1,10 +1,20 @@
-import './instrument.js';
 import * as Sentry from '@sentry/node';
-import express from 'express';
-import cors from 'cors';
-import connectDB from './db.js';
-import footballRoutes from './routes/footballRoutes.js';
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: process.env.SENTRY_BACKEND_DSN,
+    tracesSampleRate: 1.0,
+    environment: process.env.NODE_ENV,
+  });
+  Sentry.setupExpressErrorHandler(app);
+}
+import './instrument.js';
 import authRoutes from './routes/authRoutes.js';
+import connectDB from './db.js';
+import cors from 'cors';
+import express from 'express';
+import footballRoutes from './routes/footballRoutes.js';
+
+
 
 const app = express();
 
@@ -14,7 +24,7 @@ app.use(
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
-  })
+  }),
 );
 app.use(express.json());
 
@@ -24,9 +34,9 @@ app.get('/', (req, res) => {
 });
 app.use('/api/football', footballRoutes);
 app.use('/api/auth', authRoutes);
-Sentry.setupExpressErrorHandler(app);
 
-app.use(function onError(err, req, res, next) {
+
+app.use(function onError(err, req, res, _next) {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
   res.statusCode = 500;
@@ -45,13 +55,22 @@ if (process.env.NODE_ENV !== 'test') {
 
 const startServer = async () => {
   try {
-    server = app.listen(5002);
-    console.log('Server running on port 5002');
+    // Start the server and wait for it to be ready
+    server = app.listen(process.env.PORT || 5002, () => {
+      console.log(`Server running on port ${process.env.PORT || 5002}`);
+    });
+
+    // Wait for the server to actually start listening before initializing Sentry
+    await new Promise((resolve, reject) => {
+      server.on('listening', resolve);
+      server.on('error', reject);
+    });
   } catch (err) {
     console.error('Error starting server:', err);
     throw err;
   }
 };
+
 
 const stopServer = async () => {
   if (server) {
