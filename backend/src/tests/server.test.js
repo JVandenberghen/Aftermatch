@@ -4,6 +4,7 @@ import request from 'supertest';
 
 jest.mock('../db', () => jest.fn());
 
+//TODO: rewrite tests to check for API key and CORS headers, test should fail now
 describe('server.js', () => {
   beforeAll(async () => {
     connectDB.mockResolvedValueOnce();
