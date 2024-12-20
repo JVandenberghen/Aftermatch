@@ -4,17 +4,23 @@ import express from 'express';
 
 const router = express.Router();
 
+/**
+ * Creates a new user instance with the provided Firebase UID, email, and display name.
+ *
+ * @param {Object} newUser - The new user object.
+ * @param {string} newUser.firebaseUID - The UID from Firebase for the user.
+ * @param {string} newUser.email - The email address of the user.
+ * @param {string} newUser.displayName - The display name of the user, derived from the email address.
+ */
 router.post('/register', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Create user in Firebase Authentication
     const userRecord = await admin.auth().createUser({
       email,
       password,
     });
 
-    // Create the user in MongoDB atlas cloud db
     const newUser = new User({
       firebaseUID: userRecord.uid,
       email,
@@ -47,6 +53,16 @@ router.post('/register', async (req, res) => {
 });
 
 
+/**
+ * Authenticates a user with an ID token obtained from Firebase.
+ *
+ * @param {Object} req - Express request object.
+ * @param {string} req.headers.authorization - The ID token from Firebase, prefixed with 'Bearer '.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ *                            The response contains a JSON object with the user data and the ID token.
+ * @throws {Error} - Throws an error if the request fails.
+ */
 router.post('/login', async (req, res) => {
   const idToken = req.headers.authorization.replace('Bearer ', '');
 
@@ -75,6 +91,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+//TODO: profile is not yet implemented
 router.get('/profile', async (req, res) => {
   try {
     res.status(200).json({
