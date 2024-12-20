@@ -6,7 +6,6 @@ jest.mock('../db', () => jest.fn());
 
 describe('server.js', () => {
   beforeAll(async () => {
-    // Mock successful DB connection to prevent actual DB connection in tests
     connectDB.mockResolvedValueOnce();
 
     await startServer();
