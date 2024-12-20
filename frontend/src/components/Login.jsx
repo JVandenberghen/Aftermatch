@@ -55,8 +55,6 @@ const Login = () => {
 
       const result = await response.json();
 
-      console.log(result);
-
       if (response.ok) {
         console.log('User logged in successfully:', result);
         localStorage.setItem('authToken', result.token);
@@ -78,7 +76,6 @@ const Login = () => {
   const validateInputs = () => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
-
     let isValid = true;
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
@@ -180,15 +177,6 @@ const Login = () => {
             >
               Sign in
             </Button>
-            {/* <Link
-              component="button"
-              type="button"
-              onClick={handleClickOpen}
-              variant="body2"
-              sx={{ alignSelf: 'center' }}
-            >
-              Forgot your password?
-            </Link> */}
           </Box>
         <Divider>or</Divider>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
