@@ -1,6 +1,7 @@
 import axios from 'axios';
 import express from 'express';
 import * as Sentry from '@sentry/node';
+import apiKeyCheck from '../middleware/apiKeyCheck.js';
 
 const router = express.Router();
 const API_URL = 'https://api.football-data.org/v4/';
@@ -10,8 +11,11 @@ const apiHeaders = {
   headers: { 'X-Auth-Token': API_KEY },
 };
 
-//TODO: consider rate limiting middleware + check for API key from frontend
-// Maybe rate limit is overkill since I only accept requests from the frontend unless theres an infinite loop in the frontend,... ? Reflect on this later.
+// Middleware
+router.use(apiKeyCheck);
+
+//TODO: consider rate limiting middleware?
+// Maybe overkill since I only accept requests from the frontend unless theres an infinite loop in the frontend,... ? Reflect on this later.
 
 /**
  * Fetches and returns a list of football competitions.
