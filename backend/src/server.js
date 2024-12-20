@@ -48,7 +48,7 @@ if (process.env.NODE_ENV !== 'test') {
 const startServer = async () => {
   // TODO: consider logging routine logs with Winston
   try {
-    const port = process.env.PORT || 5002;
+    const port = process.env.TEST_PORT || 5002;
     server = app.listen(port, () => {
       console.info(`Server running on port ${port}`);
     });
