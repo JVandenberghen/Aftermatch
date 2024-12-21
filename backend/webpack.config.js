@@ -5,7 +5,7 @@ import nodeExternals from 'webpack-node-externals';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
-  entry: './server.js',
+  entry: './src/server.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'server.js',
