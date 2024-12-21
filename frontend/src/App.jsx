@@ -22,14 +22,14 @@ const App = () => {
     <ErrorBoundary fallback={<h2>An error has occurred</h2>}>
       <ThemeProvider theme={theme}>
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path='/' element={<Layout />}>
                 <Route index element={isAuthenticated ? <Home /> : <Login />} />
-                <Route path="/favorites" element={<Favorites />} />
-                <Route path="/competitions" element={<Competitions />} />
-                <Route path="/players" element={<Players />} />
-                <Route path="/clubs" element={<Clubs />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register/>} />      
+                <Route path='/favorites' element={<Favorites />} />
+                <Route path='/competitions' element={<Competitions />} />
+                <Route path='/players' element={<Players />} />
+                <Route path='/clubs' element={<Clubs />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/register' element={<Register/>} />      
             </Route>
         </Routes>
         <SideMenu />

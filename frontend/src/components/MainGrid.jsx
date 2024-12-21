@@ -1,10 +1,10 @@
-import Grid from '@mui/material/Grid2';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box, Grid2 as Grid, Typography } from '@mui/material';
 
-import Rankings from './Rankings';
 import AttendanceChart from './AttendanceChart';
+import Rankings from './Rankings';
 import StatCard from './StatCard';
+
+//TODO: swap dummy date for real data
 
 const data = [
   {
@@ -58,7 +58,7 @@ const MainGrid = () => {
           <AttendanceChart />
         </Grid>
       </Grid>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
+      <Typography component='h2' variant='h6' sx={{ mb: 2 }}>
         Rankings
       </Typography>
       <Grid container spacing={2} columns={12}>

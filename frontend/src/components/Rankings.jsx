@@ -111,6 +111,7 @@ const Rankings = () => {
       initialState={{
         pagination: { paginationModel: { pageSize: 20 } },
       }}
+      pageSizeOptions={[20]}
     />
   );
 };

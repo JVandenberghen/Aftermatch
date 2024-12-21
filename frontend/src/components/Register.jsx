@@ -1,85 +1,48 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { Box, Button, Card, FormLabel, FormControl, Link, TextField, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
 
-// TODO: use for authentication/sessions
-// import { auth } from '../services/firebase.js';
-
-const Register = ()  =>{
+const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [emailError, setEmailError] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [nameError, setNameError] = useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = useState('');
+  
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      navigate('/');
+    try {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
     }
   }, [navigate]);
 
   const validateInputs = () => {
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const name = document.getElementById('name');
+    const isValidEmail = email && /\S+@\S+\.\S+/.test(email);
+    const isValidPassword = password && password.length >= 6;
+    const isValidName = name && name.length >= 1;
 
-    let isValid = true;
+    setEmailError(!isValidEmail);
+    setPasswordError(!isValidPassword);
+    setNameError(!isValidName);
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
-    if (!name.value || name.value.length < 1) {
-      setNameError(true);
-      setNameErrorMessage('Name is required.');
-      isValid = false;
-    } else {
-      setNameError(false);
-      setNameErrorMessage('');
-    }
-
-    return isValid;
+    return isValidEmail && isValidPassword && isValidName;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validateInputs()) return;
-  
-    const data = new FormData(event.currentTarget);
-    const email = data.get('email');
-    const password = data.get('password');
-    const name = data.get('name');
-  
+
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register`, {
         method: 'POST',
@@ -88,21 +51,18 @@ const Register = ()  =>{
         },
         body: JSON.stringify({ email, password, name }),
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
-        console.log('User registered successfully:', result);
         localStorage.setItem('idToken', result.token);
         navigate('/login');
       } else {
-        if (result.error) {
-          if (result.error === 'auth/email-already-exists') {
-            setEmailError(true);
-            setEmailErrorMessage('Registration failed. Please check your input.');
-          } else {
-            alert('Registration failed. Please try again.');
-          }
+        if (result.error === 'auth/email-already-exists') {
+          setEmailError(true);
+          alert('Registration failed. Please check your input.');
+        } else {
+          alert('Registration failed. Please try again.');
         }
       }
     } catch (error) {
@@ -121,70 +81,73 @@ const Register = ()  =>{
           alignItems: 'center',
           border: 'none',
           boxShadow: 'none',
-        }}   
+        }}
       >
         <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: isMobileScreen ? '80%' : '20em',
-              gap: 3,
-            }}
-          >
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: isMobileScreen ? '80%' : '20em',
+            gap: 3,
+          }}
+        >
           <Box
-            component="form"
+            component='form'
             onSubmit={handleSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
+              <FormLabel htmlFor='name'>Full name</FormLabel>
               <TextField
-                autoComplete="name"
-                name="name"
+                autoComplete='name'
+                name='name'
                 required
                 fullWidth
-                id="name"
-                placeholder="Jon Snow"
+                id='name'
+                placeholder='Jon Snow'
+                value={name}
                 error={nameError}
-                helperText={nameErrorMessage}
-                color={nameError ? 'error' : 'primary'}
+                helperText={nameError ? 'Name is required.' : ''}
+                onChange={(event) => setName(event.target.value)}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+              <FormLabel htmlFor='email'>Email</FormLabel>
               <TextField
                 required
                 fullWidth
-                id="email"
-                placeholder="your@email.com"
-                name="email"
-                autoComplete="email"
-                variant="outlined"
+                id='email'
+                placeholder='your@email.com'
+                name='email'
+                autoComplete='email'
+                variant='outlined'
+                value={email}
                 error={emailError}
-                helperText={emailErrorMessage}
-                color={passwordError ? 'error' : 'primary'}
+                helperText={emailError ? 'Please enter a valid email address.' : ''}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormLabel htmlFor='password'>Password</FormLabel>
               <TextField
                 required
                 fullWidth
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                variant="outlined"
+                name='password'
+                placeholder='••••••'
+                type='password'
+                id='password'
+                autoComplete='new-password'
+                variant='outlined'
+                value={password}
                 error={passwordError}
-                helperText={passwordErrorMessage}
-                color={passwordError ? 'error' : 'primary'}
+                helperText={passwordError ? 'Password must be at least 6 characters long.' : ''}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </FormControl>
             <Button
-              type="submit"
+              type='submit'
               fullWidth
-              variant="contained"
+              variant='contained'
               onClick={(e) => {
                 if (!validateInputs()) e.preventDefault();
               }}
@@ -192,16 +155,16 @@ const Register = ()  =>{
               Sign up
             </Button>
           </Box>
-            <Typography sx={{ textAlign: 'center' }}>
-              Already have an account?{' '}
-              <Link
-                href="/login"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
-                Sign in
-              </Link>
-            </Typography>
+          <Typography sx={{ textAlign: 'center' }}>
+            Already have an account?{' '}
+            <Link
+              href='/login'
+              variant='body2'
+              sx={{ alignSelf: 'center' }}
+            >
+              Sign in
+            </Link>
+          </Typography>
         </Box>
       </Card>
     </Box>

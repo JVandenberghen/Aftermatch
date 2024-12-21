@@ -1,19 +1,16 @@
 import PropTypes from 'prop-types';
-import Badge, { badgeClasses } from '@mui/material/Badge';
-import IconButton from '@mui/material/IconButton';
+import { Badge, IconButton } from '@mui/material';
 
-const MenuButton = ({ showBadge = false, ...props }) => {
-  return (
-    <Badge
-      color="error"
-      variant="dot"
-      invisible={!showBadge}
-      sx={{ [`& .${badgeClasses.badge}`]: { right: 2, top: 2 } }}
-    >
-      <IconButton size="small" {...props} />
-    </Badge>
-  );
-};
+const MenuButton = ({ showBadge = false, ...props }) => (
+  <Badge
+    color='error'
+    variant='dot'
+    invisible={!showBadge}
+    sx={{ '& .MuiBadge-badge': { right: 2, top: 2 } }}
+  >
+    <IconButton size='small' {...props} />
+  </Badge>
+);
 
 MenuButton.propTypes = {
   showBadge: PropTypes.bool,
