@@ -3,33 +3,39 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2D9CDB',  // --color-primary
+      main: '#2D9CDB',
     },
     gradients: {
-      primary: 'linear-gradient(90deg, #2D9CDB, #56CCF2)', // Define gradient separately
+      primary: 'linear-gradient(90deg, #2D9CDB, #56CCF2)',
     },
     secondary: {
-      main: '#4CAF50',  // --color-secondary
+      main: '#4CAF50',
     },
     accent: {
-      main: '#F39C12',  // --color-accent
+      main: '#F39C12',
     },
-    warning: {
-      main: '#E74C3C',  // --color-warning
+    error: {
+      main: '#E74C3C',
+    },
+    success: {
+      main: '#4CAF50',
     },
     info: {
-      main: '#F1C40F',  // --color-info
+      main: '#F1C40F',
+    },
+    grey: {
+      main: '#cececeba',
     },
     background: {
-      default: '#F5F5F5',  // --color-background
+      default: '#F5F5F5',
     },
     text: {
-      primary: '#333333',  // --color-text-primary
-      secondary: '#ffffff',  // --color-text-secondary
+      primary: '#333333',  
+      secondary: '#ffffff',  
       tertiary: '#cececeba',
     },
-    border: '#DDDDDD',  // --color-border
-    purple: '#9B59B6',  // --color-purple
+    border: '#DDDDDD', 
+    purple: '#9B59B6', 
   },
   breakpoints: {
       xs: 0,        // Extra small devices (phones)

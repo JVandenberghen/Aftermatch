@@ -27,17 +27,25 @@ const StatCard = ({ title, value, interval, trend, data }) => {
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
   const daysInWeek = getDaysInMonth(currentMonth, currentYear);
+  
+  StatCard.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.number).isRequired,
+    interval: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    trend: PropTypes.oneOf(['down', 'neutral', 'up']).isRequired,
+    value: PropTypes.string.isRequired,
+  };
 
   const trendColors = {
-    up: theme.palette.mode === 'light' ? theme.palette.success.main : theme.palette.success.dark,
-    down: theme.palette.mode === 'light' ? theme.palette.error.main : theme.palette.error.dark,
-    neutral: theme.palette.mode === 'light' ? theme.palette.grey[400] : theme.palette.grey[700],
+    up: theme.palette.success.main,
+    down: theme.palette.error.main,
+    neutral: theme.palette.text.tertiary,
   };
 
   const labelColors = {
     up: 'success',
     down: 'error',
-    neutral: 'default',
+    neutral: 'grey',
   };
 
   const color = labelColors[trend];
@@ -52,13 +60,13 @@ const StatCard = ({ title, value, interval, trend, data }) => {
         </Typography>
         <Stack direction='column' sx={{ justifyContent: 'space-between', flexGrow: 1, gap: 1 }}>
           <Stack sx={{ justifyContent: 'space-between' }}>
-            <Stack direction='row' sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant='h4' component='p'>
+            <Stack direction='row' sx={{ justifyContent: 'space-between', alignItems: 'center' }} >
+              <Typography variant='h4'>
                 {value}
               </Typography>
               <Chip size='small' color={color} label={trendValues[trend]} />
             </Stack>
-            <Typography variant='caption' sx={{ color: 'text.secondary' }}>
+            <Typography variant='caption'>
               {interval}
             </Typography>
           </Stack>
@@ -81,12 +89,5 @@ const StatCard = ({ title, value, interval, trend, data }) => {
   );
 };
 
-StatCard.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.number).isRequired,
-  interval: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  trend: PropTypes.oneOf(['down', 'neutral', 'up']).isRequired,
-  value: PropTypes.string.isRequired,
-};
 
 export default memo(StatCard);
