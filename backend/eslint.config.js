@@ -3,6 +3,20 @@ import importPlugin from 'eslint-plugin-import';
 
 /** @type {import('eslint').Linter.Config} */
 export default {
+  ignores: [
+    'dist/**',
+    'build/**',
+    'node_modules/**',
+    'coverage/**',
+    '.git/**',
+    'cypress/**',
+    'public/**',
+    'static/**',
+    'reports/**',
+    'logs/**',
+    'tmp/**',
+    '.cache/**',
+  ],
   languageOptions: {
     globals: {
       ...globals.node, // Include only Node.js globals

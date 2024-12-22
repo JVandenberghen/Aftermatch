@@ -23,7 +23,6 @@ export default [
   },
   {
     files: ['**/*.{js,mjs,cjs,jsx}'],
-   
   },
   { languageOptions: { globals: globals.browser } }, // Flat configuration for JS plugin
   pluginReact.configs.flat.recommended,  // Flat configuration for React plugin
