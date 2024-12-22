@@ -35,74 +35,22 @@ const Rankings = () => {
   }));
 
   const columns = [
-    { 
-      field: 'teamLogo', 
-      headerName: 'Logo', 
+    {
+      field: 'teamLogo',
+      headerName: 'Logo',
       sortable: false,
-      renderCell: (params) => <img src={params.value} alt="team logo" style={{ width: '30px', height: '30px' }} />,
+      renderCell: (params) => <img src={params.value} alt='team logo' style={{ width: '30px', height: '30px' }} />,
     },
-    { 
-      field: 'id', 
-      headerName: 'Position', 
-      flex: 1, 
-    },
-    { 
-      field: 'teamName', 
-      headerName: 'Team Name', 
-      flex: 2,  
-    },
-    { 
-      field: 'matchesWon', 
-      headerName: 'M+', 
-      headerAlign: 'left', 
-      align: 'left', 
-      flex: 1, 
-    },
-    { 
-      field: 'matchesDrawn', 
-      headerName: 'M=', 
-      headerAlign: 'left', 
-      align: 'left', 
-      flex: 1, 
-    },
-    { 
-      field: 'matchesLost', 
-      headerName: 'M-', 
-      headerAlign: 'left', 
-      align: 'left', 
-      flex: 1, 
-    },
-    { 
-      field: 'goalsFor', 
-      headerName: 'Goals Scored', 
-      headerAlign: 'left', 
-      align: 'left', 
-      flex: 1, 
-    },
-    { 
-      field: 'goalsAgainst', 
-      headerName: 'Goals Conceded', 
-      headerAlign: 'left', 
-      align: 'left', 
-      flex: 1, 
-    },
-    { 
-      field: 'goalDifference', 
-      headerName: 'Goal Difference', 
-      headerAlign: 'left', 
-      align: 'left', 
-      flex: 1, 
-    },
-    { 
-      field: 'points', 
-      headerName: 'Points', 
-      headerAlign: 'left', 
-      align: 'left', 
-      flex: 1, 
-    },
+    { field: 'id', headerName: 'Position', flex: 1 },
+    { field: 'teamName', headerName: 'Team Name', flex: 2 },
+    { field: 'matchesWon', headerName: 'M+', headerAlign: 'left', align: 'left', flex: 1 },
+    { field: 'matchesDrawn', headerName: 'M=', headerAlign: 'left', align: 'left', flex: 1 },
+    { field: 'matchesLost', headerName: 'M-', headerAlign: 'left', align: 'left', flex: 1 },
+    { field: 'goalsFor', headerName: 'Goals Scored', headerAlign: 'left', align: 'left', flex: 1 },
+    { field: 'goalsAgainst', headerName: 'Goals Conceded', headerAlign: 'left', align: 'left', flex: 1 },
+    { field: 'goalDifference', headerName: 'Goal Difference', headerAlign: 'left', align: 'left', flex: 1 },
+    { field: 'points', headerName: 'Points', headerAlign: 'left', align: 'left', flex: 1 },
   ];
-
-  
 
   return (
     <DataGrid
@@ -111,6 +59,7 @@ const Rankings = () => {
       initialState={{
         pagination: { paginationModel: { pageSize: 20 } },
       }}
+      pageSizeOptions={[20]}
     />
   );
 };

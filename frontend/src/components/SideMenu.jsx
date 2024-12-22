@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   Drawer,
 } from '@mui/material/';
@@ -7,7 +8,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuItems from './MenuItems';
 import CardAlert from './CardAlert';
 
-
 const SideMenu = () => {
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -16,7 +16,7 @@ const SideMenu = () => {
     <>
       {!isMobileScreen && 
         <Drawer
-          variant="permanent"
+          variant='permanent'
           sx={{
             '& .MuiDrawer-paper': {
             position: 'fixed',
@@ -41,4 +41,4 @@ const SideMenu = () => {
   );
 };
 
-export default SideMenu;
+export default memo(SideMenu);

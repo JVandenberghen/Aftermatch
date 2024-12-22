@@ -52,7 +52,7 @@ const MenuItems = () => {
               }}
             >
               <ListItemIcon
-                className="icon"
+                className='icon'
                 sx={{
                   color: location.pathname === item.route ? '#fff !important' : 'inherit',
                   '.MuiSvgIcon-root': {
@@ -83,7 +83,7 @@ const MenuItems = () => {
                 },
               }}
             >
-              <ListItemIcon className="icon">{item.icon}</ListItemIcon>
+              <ListItemIcon className='icon'>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>

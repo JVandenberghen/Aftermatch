@@ -1,8 +1,5 @@
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import { FormControl, InputAdornment, OutlinedInput, useTheme } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Search = () => {
@@ -11,11 +8,11 @@ const Search = () => {
 
   return (
   <>
-    <FormControl sx={{ width: isMobileScreen ? '80%' : '30rem' }} variant="outlined">
+    <FormControl sx={{ width: isMobileScreen ? '80%' : '30rem' }} variant='outlined'>
       <OutlinedInput
-        size="small"
-        id="search"
-        placeholder="Search…"
+        size='small'
+        id='search'
+        placeholder='Search…'
         sx={{
           flexGrow: 1,
           bgcolor: theme.palette.background.default,
@@ -23,8 +20,8 @@ const Search = () => {
           boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)',
         }}
         startAdornment={
-          <InputAdornment position="start">
-            <SearchRoundedIcon fontSize="small" className="icon" />
+          <InputAdornment position='start'>
+            <SearchRoundedIcon fontSize='small' className='icon' />
           </InputAdornment>
         }
         inputProps={{
